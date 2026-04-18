@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLITCHLAB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div id="topbar">
+    <span class="logo">GLITCHLAB</span>
+    <div class="badges">
+      <span class="badge" id="gpu-badge">CANVAS2D</span>
+      <span class="badge active" id="mode-badge">LISTO</span>
+      <span class="badge td" id="td-badge" style="display:none">● TD</span>
+    </div>
+    <span id="current-effect-name">— sin efecto —</span>
+    <div class="topbar-right">
+      <span id="fps-counter">-- fps</span>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- LEFT: Effects sidebar -->
+    <div id="sidebar">
+      <div class="section-title">Entrada</div>
+      <div id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <span class="dz-icon">⬇</span>
+        <span>Suelta · Pega · Webcam</span>
+        <span class="dz-hint">PNG · JPG · GIF · MP4 · WebM</span>
+      </div>
+      <input type="file" id="file-input" accept="image/*,video/*">
+
+      <div class="section-title">
+        CPU
+        <span class="section-count" id="cpu-count"></span>
+      </div>
+      <div id="effects-cpu" class="effects-group"></div>
+
+      <div class="section-title">
+        WebGL
+        <span class="badge mini active">GPU</span>
+        <span class="section-count" id="gpu-count"></span>
+      </div>
+      <div id="effects-gpu" class="effects-group"></div>
+
+      <div class="section-title">
+        TouchDesigner
+        <span class="badge mini td" id="td-sidebar-badge">OFF</span>
+      </div>
+      <div id="effects-td" class="effects-group"></div>
+    </div>
+
+    <!-- CENTER: Canvas -->
+    <div id="canvas-area">
+      <canvas id="main-canvas" style="display:none"></canvas>
+      <div id="placeholder">
+        <div class="ph-logo">GLITCHLAB</div>
+        <div class="ph-sub">Suelta un archivo · Ctrl+V · Webcam</div>
+        <div class="ph-meta" id="ph-meta">CPU · WebGL · TouchDesigner</div>
+      </div>
+      <div id="canvas-overlay">
+        <div id="effect-label"></div>
+      </div>
+      <div class="zoom-bar">
+        <button onclick="App.zoom(-10)">−</button>
+        <span id="zoom-label">100%</span>
+        <button onclick="App.zoom(10)">+</button>
+        <span class="zd">|</span>
+        <button onclick="App.resetZoom()">1:1</button>
+        <span class="zd">|</span>
+        <span id="res-label" class="res-label"></span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Settings -->
+    <div id="settings-panel">
+
+      <div class="section-title" style="border-top:none">Calidad</div>
+      <div class="quality-row">
+        <button class="q-btn" id="q-low"  onclick="App.setQ(.25)" title="Shortcut: 1">¼</button>
+        <button class="q-btn on" id="q-mid" onclick="App.setQ(.5)"  title="Shortcut: 2">½</button>
+        <button class="q-btn" id="q-hi"   onclick="App.setQ(1)"   title="Shortcut: 3">1:1</button>
+      </div>
+
+      <div class="panel-section" id="effect-params-section">
+        <div class="panel-section-title">Efecto</div>
+        <div id="settings-content">
+          <span class="muted-hint">Selecciona un efecto</span>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-section-title">Global</div>
+        <div class="param-row">
+          <div class="param-label"><span>Brillo</span><span class="val" id="v-br">0</span></div>
+          <input type="range" min="-100" max="100" value="0" id="brightness"
+            oninput="document.getElementById('v-br').textContent=this.value;Renderer.renderFrame()">
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Contraste</span><span class="val" id="v-co">0</span></div>
+          <input type="range" min="-100" max="100" value="0" id="contrast"
+            oninput="document.getElementById('v-co').textContent=this.value;Renderer.renderFrame()">
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Saturación</span><span class="val" id="v-sa">100</span></div>
+          <input type="range" min="0" max="200" value="100" id="saturation"
+            oninput="document.getElementById('v-sa').textContent=this.value;Renderer.renderFrame()">
+        </div>
+      </div>
+
+      <!-- LUT -->
+      <div class="panel-section">
+        <div class="panel-section-title">LUT</div>
+        <div class="param-row">
+          <div class="param-label"><span>Intensidad</span><span class="val" id="v-lut">100</span></div>
+          <input type="range" min="0" max="100" value="100" id="lut-intensity"
+            oninput="document.getElementById('v-lut').textContent=this.value;Renderer.renderFrame()">
+        </div>
+        <select id="lut-select" onchange="LUTEngine.load(this.value)">
+          <option value="none">— Sin LUT —</option>
+          <option value="fade">Fade</option>
+          <option value="neon">Neon</option>
+          <option value="vintage">Vintage</option>
+          <option value="thermal">Thermal</option>
+          <option value="acid">Acid</option>
+        </select>
+        <label class="upload-lut" onclick="document.getElementById('lut-file').click()">
+          ↑ Subir .cube / .png
+        </label>
+        <input type="file" id="lut-file" accept=".cube,.png" style="display:none"
+          onchange="LUTEngine.loadFile(this.files[0])">
+      </div>
+
+      <!-- TouchDesigner -->
+      <div class="panel-section">
+        <div class="panel-section-title">TouchDesigner</div>
+        <div class="td-status-row">
+          <div class="td-dot" id="td-dot"></div>
+          <span id="td-status-text">Desconectado</span>
+        </div>
+        <div id="td-params-live" class="td-live-params" style="display:none"></div>
+        <button class="action-btn td-btn" id="td-reconnect" onclick="TDBridge.reconnect()">
+          Reconectar
+        </button>
+      </div>
+
+      <div class="action-row">
+        <button class="action-btn" onclick="App.exportImage()">↓ PNG</button>
+        <button class="action-btn cam" id="cam-btn" onclick="App.toggleWebcam()">⊙ Cam</button>
+      </div>
+
+      <div class="version-info">
+        GLITCHLAB v3.0 · Node + WebGL
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts — load order is critical -->
+  <script src="js/core/perlin.js"></script>
+  <script src="js/core/state.js"></script>
+  <script src="js/webgl/gl-renderer.js"></script>   <!-- must be before renderer.js -->
+  <script src="js/core/lut-engine.js"></script>
+  <script src="js/core/renderer.js"></script>
+  <script src="js/effects/cpu-effects.js"></script>
+  <script src="js/effects/webgl-effects.js"></script>
+  <script src="js/effects/td-effects.js"></script>
+  <script src="js/core/td-bridge.js"></script>
+  <script src="js/ui/ui.js"></script>
+  <script src="js/core/app.js"></script>
+</body>
+</html>
