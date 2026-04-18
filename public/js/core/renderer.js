@@ -82,7 +82,11 @@ const Renderer = (() => {
 
       display.width = sw; display.height = sh;
       displayX.imageSmoothingEnabled = State.quality < 1;
-      displayX.drawImage(GLRenderer.getCanvas(), 0, 0, sw, sh);
+      displayX.save();
+displayX.translate(0, sh);
+displayX.scale(1, -1);
+displayX.drawImage(GLRenderer.getCanvas(), 0, 0, sw, sh);
+displayX.restore();
 
       if (State.activeLUT) {
         const pixels = displayX.getImageData(0, 0, sw, sh);

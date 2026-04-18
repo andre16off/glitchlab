@@ -344,3 +344,16 @@ input[type=checkbox] { accent-color: var(--accent); width: 10px; height: 10px; }
 ::-webkit-scrollbar { width: 2px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); }
+
+.td-coming-soon {
+  padding: 10px 12px;
+  font-size: 9px;
+  color: #555;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  border-top: 1px solid var(--border);
+}
+#effects-td .effect-item {
+  pointer-events: none;
+  opacity: 0.3;
+}
