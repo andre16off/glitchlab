@@ -115,3 +115,42 @@ const App = (() => {
   init();
   return { selectEffect, setQ, zoom, resetZoom, loadFile, toggleWebcam, exportImage };
 })();
+
+// ── Mobile menu ──────────────────────────────────────────────
+const MobileMenu = (() => {
+  const sidebar  = document.getElementById('sidebar');
+  const settings = document.getElementById('settings-panel');
+  const overlay  = document.getElementById('mobile-overlay');
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    settings.classList.remove('open');
+    overlay.classList.add('active');
+  }
+  function openSettings() {
+    settings.classList.add('open');
+    sidebar.classList.remove('open');
+    overlay.classList.add('active');
+  }
+  function close() {
+    sidebar.classList.remove('open');
+    settings.classList.remove('open');
+    overlay.classList.remove('active');
+  }
+  function toggle() {
+    if (sidebar.classList.contains('open') || settings.classList.contains('open')) {
+      close();
+    } else {
+      openSidebar();
+    }
+  }
+
+  // Close panels when an effect is selected on mobile
+  document.addEventListener('click', e => {
+    if (e.target.closest('.effect-item') && window.innerWidth <= 768) {
+      setTimeout(close, 150);
+    }
+  });
+
+  return { toggle, openSidebar, openSettings, close };
+})();

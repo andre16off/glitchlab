@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" type="image/png" href="./image.png">
+  <link rel="icon" type="image/png" href="image.png">
+
 </head>
 <body>
 
@@ -21,8 +22,13 @@
     <span id="current-effect-name">— sin efecto —</span>
     <div class="topbar-right">
       <span id="fps-counter">-- fps</span>
+      <button class="menu-btn" id="menu-btn" onclick="MobileMenu.toggle()">☰</button>
+<button class="menu-btn" id="export-btn-mobile" onclick="App.exportImage()" style="display:none">↓</button>
     </div>
   </div>
+
+  <!-- Mobile overlay -->
+  <div id="mobile-overlay" onclick="MobileMenu.close()"></div>
 
   <div class="main">
 
@@ -54,9 +60,6 @@
         <span class="badge mini td" id="td-sidebar-badge">OFF</span>
       </div>
       <div id="effects-td" class="effects-group"></div>
-<div class="td-coming-soon">
-  Integración TouchDesigner<br>coming soon
-</div>
     </div>
 
     <!-- CENTER: Canvas -->
@@ -65,7 +68,7 @@
       <div id="placeholder">
         <div class="ph-logo">GLITCHLAB</div>
         <div class="ph-sub">Suelta un archivo · Ctrl+V · Webcam</div>
-        <div class="ph-meta" id="ph-meta">CPU · WebGL · TouchDesigner</div>
+        <div class="ph-meta" id="ph-meta">CPU · WebGL · TouchDesigner · by @not.andre16</div>
       </div>
       <div id="canvas-overlay">
         <div id="effect-label"></div>
@@ -79,6 +82,13 @@
         <span class="zd">|</span>
         <span id="res-label" class="res-label"></span>
       </div>
+      <!-- Mobile floating buttons -->
+      <div class="mobile-actions">
+  <button class="mobile-fab" onclick="App.exportImage()" title="Exportar">↓</button>
+  <button class="mobile-fab" onclick="MobileMenu.openSidebar()" title="Efectos">⚡</button>
+  <button class="mobile-fab" onclick="MobileMenu.openSettings()" title="Ajustes">⚙</button>
+  <button class="mobile-fab" onclick="document.getElementById('file-input').click()" title="Subir">↑</button>
+</div>
     </div>
 
     <!-- RIGHT: Settings -->
@@ -159,8 +169,8 @@
       </div>
 
       <div class="version-info">
-        GLITCHLAB v3.0 · Node + WebGL
-      </div>
+  GLITCHLAB v3.0 · by <a href="https://instagram.com/not.andre16" target="_blank" style="color:#fafafa;text-decoration:none;">@not.andre16</a>
+</div>
     </div>
 
   </div>
