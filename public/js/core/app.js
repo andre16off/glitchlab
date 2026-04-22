@@ -64,16 +64,33 @@ const App = (() => {
   async function toggleWebcam() {
     if (State.isCam) { stopCam(); return; }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video:{width:{ideal:1280},height:{ideal:720}} });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          width:  { ideal: 1280 },
+          height: { ideal: 720 },
+          facingMode: { ideal: State.camFacing || 'user' }
+        }
+      });
       Renderer.stopLoop();
       const v = document.createElement('video');
       v.srcObject=stream; v.autoplay=v.playsInline=v.muted=true;
       v.onloadedmetadata = () => {
-        v.play(); State.srcVid=v; State.srcImg=null; State.isVideo=false; State.isCam=true; State.camStream=stream;
-        const btn=document.getElementById('cam-btn');btn.textContent='⊗ Cam';btn.classList.add('on');
+        v.play();
+        State.srcVid=v; State.srcImg=null;
+        State.isVideo=false; State.isCam=true; State.camStream=stream;
+        const btn=document.getElementById('cam-btn');
+        btn.textContent='⊗ Cam'; btn.classList.add('on');
         UI.showCanvas(); Renderer.startLoop();
       };
     } catch(e) { alert('Webcam no disponible: '+e.message); }
+  }
+  async function flipCamera() {
+    State.camFacing = State.camFacing === 'environment' ? 'user' : 'environment';
+    if (State.isCam) {
+      stopCam();
+      await new Promise(r => setTimeout(r, 300));
+      toggleWebcam();
+    }
   }
 
   function stopCam() {
@@ -113,7 +130,7 @@ const App = (() => {
   }
 
   init();
-  return { selectEffect, setQ, zoom, resetZoom, loadFile, toggleWebcam, exportImage };
+ return { selectEffect, setQ, zoom, resetZoom, loadFile, toggleWebcam, flipCamera, exportImage };
 })();
 
 // ── Mobile menu ──────────────────────────────────────────────

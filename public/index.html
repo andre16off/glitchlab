@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GLITCHLAB</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" type="image/png" href="image.png">
 
@@ -68,7 +68,7 @@
       <div id="placeholder">
         <div class="ph-logo">GLITCHLAB</div>
         <div class="ph-sub">Suelta un archivo · Ctrl+V · Webcam</div>
-        <div class="ph-meta" id="ph-meta">CPU · WebGL · TouchDesigner · by @not.andre16</div>
+        <div class="ph-meta" id="ph-meta">CPU · WebGL · TouchDesigner · by <a href="https://instagram.com/not.andre16" target="_blank" style="color:#fafafa;text-decoration:none;">@not.andre16</a></div>
       </div>
       <div id="canvas-overlay">
         <div id="effect-label"></div>
@@ -88,6 +88,7 @@
   <button class="mobile-fab" onclick="MobileMenu.openSidebar()" title="Efectos">⚡</button>
   <button class="mobile-fab" onclick="MobileMenu.openSettings()" title="Ajustes">⚙</button>
   <button class="mobile-fab" onclick="document.getElementById('file-input').click()" title="Subir">↑</button>
+  <button class="mobile-fab" onclick="App.flipCamera()" title="Girar cámara">⇄</button>
 </div>
     </div>
 

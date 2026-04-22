@@ -2,18 +2,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:      #070707;
-  --panel:   #0c0c0c;
-  --border:  #181818;
-  --border2: #242424;
-  --accent:  #d4f542;
-  --blue:    #3ab4ff;
-  --td:      #ff9500;
-  --red:     #ff4444;
-  --text:    #b8b8b8;
-  --muted:   #404040;
-  --white:   #e8e8e8;
-  --font:    'IBM Plex Mono', monospace;
+  --bg:      #000000;
+  --panel:   #080808;
+  --border:  #141414;
+  --border2: #202020;
+  --accent:  #ffffff;
+  --blue:    #ffffff;
+  --td:      #ffffff;
+  --red:     #ffffff;
+  --text:    #aaaaaa;
+  --muted:   #444444;
+  --white:   #ffffff;
+--font: 'Space Grotesk', monospace;
 }
 
 html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 12px; }
@@ -92,9 +92,9 @@ html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(-
 }
 #main-canvas { max-width: 100%; max-height: 100%; image-rendering: pixelated; }
 #placeholder { position: absolute; text-align: center; pointer-events: none; user-select: none; }
-.ph-logo { font-size: 36px; font-weight: 500; color: #141414; letter-spacing: 10px; }
-.ph-sub  { font-size: 10px; color: #202020; margin-top: 8px; }
-.ph-meta { font-size: 9px; color: #181818; margin-top: 6px; letter-spacing: 2px; }
+.ph-logo { font-size: 36px; font-weight: 500; color: #ffffff; letter-spacing: 10px; }
+.ph-sub  { font-size: 10px; color: #555555; margin-top: 8px; }
+.ph-meta { font-size: 9px; color: #333333; margin-top: 6px; letter-spacing: 2px; }
 #canvas-overlay { position: absolute; top: 10px; left: 10px; pointer-events: none; }
 #effect-label { font-size: 9px; color: var(--accent); background: rgba(0,0,0,.75); padding: 2px 8px; letter-spacing: 1px; opacity: 0; transition: opacity .3s; }
 #effect-label.show { opacity: 1; }

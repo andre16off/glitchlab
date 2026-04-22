@@ -16,12 +16,12 @@ const Effects = {
       params:{ size:{min:4,max:40,val:14,step:1,label:'Tamaño'}, color:{type:'cb',val:0,label:'Color'} } },
     matrix:     { id:'matrix',     name:'Lluvia Matrix',   type:'cpu', anim:true, fn:fxMatrix,
       params:{ speed:{min:1,max:10,val:5,step:1,label:'Velocidad'}, density:{min:10,max:100,val:50,step:1,label:'Densidad'} } },
-    dots:       { id:'dots',       name:'Puntos',          type:'cpu', fn:fxDots,
-      params:{ size:{min:2,max:30,val:8,step:1,label:'Tamaño'}, spacing:{min:1,max:20,val:4,step:1,label:'Espaciado'} } },
+    dots: { id:'dots', name:'Puntos', type:'cpu', fn:fxDots,
+    params:{ size:{min:2,max:30,val:8,step:1,label:'Tamaño'}, spacing:{min:1,max:20,val:4,step:1,label:'Espaciado'}, shape:{type:'sel',opts:['Cuadrado','Rombo','Cruz'],val:0,label:'Forma'} } },
     contour:    { id:'contour',    name:'Contornos',       type:'cpu', fn:fxContour,
       params:{ levels:{min:2,max:32,val:8,step:1,label:'Niveles'}, thickness:{min:1,max:5,val:1,step:1,label:'Grosor'} } },
-    pixelsort:  { id:'pixelsort',  name:'Orden píxeles',   type:'cpu', fn:fxPixelSort,
-      params:{ threshold:{min:0,max:255,val:80,step:1,label:'Umbral'}, direction:{type:'sel',opts:['Horizontal','Vertical'],val:0,label:'Dirección'}, length:{min:10,max:100,val:60,step:1,label:'Longitud %'} } },
+    pixelsort: { id:'pixelsort', name:'Orden píxeles', type:'cpu', fn:fxPixelSort,
+  params:{ threshold:{min:0,max:255,val:60,step:1,label:'Umbral'}, direction:{type:'sel',opts:['Horizontal','Vertical'],val:0,label:'Dirección'}, mode:{type:'sel',opts:['Luminancia','Rojo','Saturación'],val:0,label:'Ordenar por'} } },
     blockify:   { id:'blockify',   name:'Pixelado',        type:'cpu', fn:fxBlockify,
       params:{ size:{min:2,max:64,val:16,step:1,label:'Tamaño bloque'} } },
     threshold:  { id:'threshold',  name:'Umbral',          type:'cpu', fn:fxThreshold,
@@ -32,8 +32,8 @@ const Effects = {
       params:{ spacing:{min:4,max:32,val:10,step:1,label:'Espaciado'} } },
     wavelines:  { id:'wavelines',  name:'Wave Lines',      type:'cpu', anim:true, fn:fxWaveLines,
       params:{ amplitude:{min:1,max:60,val:20,step:1,label:'Amplitud'}, frequency:{min:1,max:40,val:10,step:1,label:'Frecuencia'}, spacing:{min:2,max:30,val:8,step:1,label:'Espaciado'}, speed:{min:0,max:20,val:6,step:1,label:'Velocidad'}, color:{type:'cb',val:1,label:'Color imagen'} } },
-    voronoi:    { id:'voronoi',    name:'Voronoi',         type:'cpu', fn:fxVoronoi,
-      params:{ cells:{min:10,max:200,val:60,step:1,label:'Celdas'}, style:{type:'sel',opts:['Plano','Bordes','Mixto','Cristal'],val:0,label:'Estilo'}, color:{type:'cb',val:1,label:'Color imagen'} } },
+   voronoi: { id:'voronoi', name:'Voronoi', type:'cpu', fn:fxVoronoi,
+  params:{ cells:{min:10,max:200,val:60,step:1,label:'Celdas'}, style:{type:'sel',opts:['Sin bordes','Con bordes'],val:1,label:'Estilo'}, color:{type:'cb',val:1,label:'Color imagen'} } },
     vhs:        { id:'vhs',        name:'Glitch VHS',      type:'cpu', anim:true, fn:fxVHS,
       params:{ distort:{min:0,max:100,val:40,step:1,label:'Distorsión'}, color:{min:0,max:100,val:50,step:1,label:'Sangrado'}, scanlines:{type:'cb',val:1,label:'Scanlines'} } },
     noise_cpu:  { id:'noise_cpu',  name:'Ruido (CPU)',     type:'cpu', anim:true, fn:fxNoiseCPU,
@@ -76,10 +76,7 @@ const UI = {
       el.className = 'effect-item' + (eff.id === State.activeEffect ? ' active' : '');
       el.id = 'eff_' + eff.id;
       let h = `<span class="nm">${eff.name}</span>`;
-      if (eff.hot)  h += `<span class="ebadge hot">HOT</span>`;
-      if (eff.anim) h += `<span class="ebadge anim">~</span>`;
-      if (eff.type === 'webgl') h += `<span class="ebadge gpu">GPU</span>`;
-      if (eff.type === 'td')   h += `<span class="ebadge td">TD</span>`;
+    
       el.innerHTML = h;
       el.onclick = () => App.selectEffect(eff.id);
       const target = groups[eff.type];
