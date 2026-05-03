@@ -16,52 +16,64 @@ const Effects = {
       params:{ size:{min:4,max:40,val:14,step:1,label:'Tamaño'}, color:{type:'cb',val:0,label:'Color'} } },
     matrix:     { id:'matrix',     name:'Lluvia Matrix',   type:'cpu', anim:true, fn:fxMatrix,
       params:{ speed:{min:1,max:10,val:5,step:1,label:'Velocidad'}, density:{min:10,max:100,val:50,step:1,label:'Densidad'} } },
-    dots: { id:'dots', name:'Puntos', type:'cpu', fn:fxDots,
-    params:{ size:{min:2,max:30,val:8,step:1,label:'Tamaño'}, spacing:{min:1,max:20,val:4,step:1,label:'Espaciado'}, shape:{type:'sel',opts:['Cuadrado','Rombo','Cruz'],val:0,label:'Forma'} } },
+    dots:       { id:'dots',       name:'Puntos',          type:'cpu', fn:fxDots,
+      params:{ size:{min:2,max:30,val:8,step:1,label:'Tamaño'}, spacing:{min:1,max:20,val:4,step:1,label:'Espaciado'}, shape:{type:'sel',opts:['Cuadrado','Rombo','Cruz'],val:0,label:'Forma'} } },
     contour:    { id:'contour',    name:'Contornos',       type:'cpu', fn:fxContour,
       params:{ levels:{min:2,max:32,val:8,step:1,label:'Niveles'}, thickness:{min:1,max:5,val:1,step:1,label:'Grosor'} } },
-    pixelsort: { id:'pixelsort', name:'Orden píxeles', type:'cpu', fn:fxPixelSort,
-  params:{ threshold:{min:0,max:255,val:60,step:1,label:'Umbral'}, direction:{type:'sel',opts:['Horizontal','Vertical'],val:0,label:'Dirección'}, mode:{type:'sel',opts:['Luminancia','Rojo','Saturación'],val:0,label:'Ordenar por'} } },
+    pixelsort:  { id:'pixelsort',  name:'Pixel Sort',      type:'cpu', fn:fxPixelSort,
+      params:{ threshold:{min:0,max:255,val:60,step:1,label:'Umbral'}, direction:{type:'sel',opts:['Horizontal','Vertical'],val:0,label:'Dirección'}, mode:{type:'sel',opts:['Luminancia','Rojo','Saturación'],val:0,label:'Ordenar por'}, softness:{min:0,max:100,val:30,step:1,label:'Suavidad'} } },
     blockify:   { id:'blockify',   name:'Pixelado',        type:'cpu', fn:fxBlockify,
       params:{ size:{min:2,max:64,val:16,step:1,label:'Tamaño bloque'} } },
-    threshold:  { id:'threshold',  name:'Umbral',          type:'cpu', fn:fxThreshold,
-      params:{ level:{min:0,max:255,val:128,step:1,label:'Nivel'}, invert:{type:'cb',val:0,label:'Invertir'} } },
     edge:       { id:'edge',       name:'Detec. bordes',   type:'cpu', hot:true, fn:fxEdge,
       params:{ strength:{min:1,max:20,val:5,step:1,label:'Intensidad'}, threshold:{min:0,max:255,val:30,step:1,label:'Umbral'}, mode:{type:'sel',opts:['B/N','Color','Neón','Invertido','Overlay'],val:0,label:'Modo'}, blur:{min:0,max:3,val:1,step:1,label:'Suavizado'} } },
     crosshatch: { id:'crosshatch', name:'Rayado cruzado',  type:'cpu', fn:fxCrosshatch,
       params:{ spacing:{min:4,max:32,val:10,step:1,label:'Espaciado'} } },
     wavelines:  { id:'wavelines',  name:'Wave Lines',      type:'cpu', anim:true, fn:fxWaveLines,
-      params:{ amplitude:{min:1,max:60,val:20,step:1,label:'Amplitud'}, frequency:{min:1,max:40,val:10,step:1,label:'Frecuencia'}, spacing:{min:2,max:30,val:8,step:1,label:'Espaciado'}, speed:{min:0,max:20,val:6,step:1,label:'Velocidad'}, color:{type:'cb',val:1,label:'Color imagen'} } },
-   voronoi: { id:'voronoi', name:'Voronoi', type:'cpu', fn:fxVoronoi,
-  params:{ cells:{min:10,max:200,val:60,step:1,label:'Celdas'}, style:{type:'sel',opts:['Sin bordes','Con bordes'],val:1,label:'Estilo'}, color:{type:'cb',val:1,label:'Color imagen'} } },
+      params:{ amplitude:{min:1,max:60,val:20,step:1,label:'Amplitud'}, frequency:{min:1,max:40,val:10,step:1,label:'Frecuencia'}, spacing:{min:2,max:30,val:8,step:1,label:'Espaciado'}, speed:{min:0,max:20,val:6,step:1,label:'Velocidad'}, thickness:{min:1,max:4,val:1,step:0.5,label:'Grosor'}, color:{type:'cb',val:1,label:'Color imagen'} } },
     vhs:        { id:'vhs',        name:'Glitch VHS',      type:'cpu', anim:true, fn:fxVHS,
       params:{ distort:{min:0,max:100,val:40,step:1,label:'Distorsión'}, color:{min:0,max:100,val:50,step:1,label:'Sangrado'}, scanlines:{type:'cb',val:1,label:'Scanlines'} } },
     noise_cpu:  { id:'noise_cpu',  name:'Ruido (CPU)',     type:'cpu', anim:true, fn:fxNoiseCPU,
       params:{ scale:{min:1,max:200,val:50,step:1,label:'Escala'}, intensity:{min:0,max:100,val:60,step:1,label:'Intensidad'}, type:{type:'sel',opts:['Perlin','Grano','Escaneo','Estático'],val:0,label:'Tipo'} } },
 
+    // ── NUEVOS ────────────────────────────────────
+    duotone:    { id:'duotone',    name:'Duotono',         type:'cpu', hot:true, fn:fxDuotone,
+      params:{ preset:{type:'sel',opts:['Negro + Rosa','Azul + Dorado','Púrpura + Naranja','Azul + Cian','Vintage','Neón Verde'],val:0,label:'Paleta'}, intensity:{min:0,max:100,val:100,step:1,label:'Intensidad'} } },
+
+    gradientmap:{ id:'gradientmap',name:'Gradient Map',    type:'cpu', hot:true, fn:fxGradientMap,
+      params:{ preset:{type:'sel',opts:['Sunset','Cyberpunk','Vintage','Acid','Thermal','Azul'],val:0,label:'Gradiente'}, intensity:{min:0,max:100,val:100,step:1,label:'Intensidad'} } },
+
+    softglow:   { id:'softglow',   name:'Soft Glow',       type:'cpu', fn:fxSoftGlow,
+      params:{ blur:{min:2,max:30,val:8,step:1,label:'Radio blur'}, strength:{min:0,max:100,val:60,step:1,label:'Intensidad glow'}, threshold:{min:0,max:80,val:30,step:1,label:'Umbral brillo'} } },
+
+    sharpen:    { id:'sharpen',    name:'Sharpen HD',      type:'cpu', fn:fxSharpen,
+      params:{ strength:{min:0,max:100,val:50,step:1,label:'Intensidad'}, radius:{min:1,max:3,val:1,step:1,label:'Radio'} } },
+
+    retro2005:  { id:'retro2005',  name:'Cámara 2005',     type:'cpu', hot:true, fn:fxRetro2005,
+      params:{ intensity:{min:0,max:100,val:70,step:1,label:'Intensidad'}, grain:{min:0,max:100,val:60,step:1,label:'Grano'}, jpeg:{min:0,max:100,val:40,step:1,label:'Artefactos JPEG'} } },
+
     // ── WebGL (GPU) ───────────────────────────────
     liquidglass_gl: { id:'liquidglass_gl', name:'Liquid Glass',     type:'webgl', anim:true, hot:true,
       fragSrc: WGLFX.liquidGlass.fragSrc, uniforms: WGLFX.liquidGlass.uniforms.bind(WGLFX.liquidGlass),
       params:{ scale:{min:10,max:200,val:60,step:1,label:'Escala'}, distortion:{min:1,max:60,val:22,step:1,label:'Distorsión'}, speed:{min:1,max:20,val:6,step:1,label:'Velocidad'}, chromatic:{min:0,max:20,val:6,step:1,label:'Aberración'}, highlight:{min:0,max:100,val:50,step:1,label:'Destellos'} } },
-    noise_gl: { id:'noise_gl', name:'Noise Field (GPU)',  type:'webgl', anim:true,
+    noise_gl:       { id:'noise_gl',       name:'Noise Field (GPU)', type:'webgl', anim:true,
       fragSrc: WGLFX.noiseField.fragSrc, uniforms: WGLFX.noiseField.uniforms.bind(WGLFX.noiseField),
       params:{ scale:{min:1,max:200,val:50,step:1,label:'Escala'}, intensity:{min:0,max:100,val:60,step:1,label:'Intensidad'}, type:{type:'sel',opts:['Perlin','Grano','Escaneo','Estático'],val:0,label:'Tipo'} } },
-    feedback_gl: { id:'feedback_gl', name:'Feedback / Trails', type:'webgl', anim:true, hot:true,
+    feedback_gl:    { id:'feedback_gl',    name:'Feedback / Trails', type:'webgl', anim:true, hot:true,
       fragSrc: WGLFX.feedback.fragSrc, uniforms: WGLFX.feedback.uniforms.bind(WGLFX.feedback),
       params:{ decay:{min:50,max:99,val:88,step:1,label:'Decay %'}, zoom:{min:0,max:20,val:2,step:1,label:'Zoom'}, rotate:{min:-10,max:10,val:1,step:1,label:'Rotación'}, displace:{min:0,max:100,val:30,step:1,label:'Desplaz.'} } },
-    chromwarp_gl: { id:'chromwarp_gl', name:'Chromatic Warp',    type:'webgl',
+    chromwarp_gl:   { id:'chromwarp_gl',   name:'Chromatic Warp',    type:'webgl',
       fragSrc: WGLFX.chromaWarp.fragSrc, uniforms: WGLFX.chromaWarp.uniforms.bind(WGLFX.chromaWarp),
       params:{ aberration:{min:0,max:30,val:8,step:1,label:'Aberración'}, barrel:{min:-10,max:10,val:3,step:1,label:'Barrel'}, vignette:{min:0,max:100,val:50,step:1,label:'Viñeta'}, scanlines:{type:'cb',val:1,label:'Scanlines'} } },
-    particles_gl: { id:'particles_gl', name:'Particle Field',    type:'webgl', anim:true, hot:true,
+    particles_gl:   { id:'particles_gl',   name:'Particle Field',    type:'webgl', anim:true, hot:true,
       fragSrc: WGLFX.particles.fragSrc, uniforms: WGLFX.particles.uniforms.bind(WGLFX.particles),
       params:{ density:{min:5,max:80,val:30,step:1,label:'Densidad'}, size:{min:10,max:120,val:60,step:1,label:'Tamaño'}, speed:{min:1,max:15,val:4,step:1,label:'Velocidad'}, glow:{min:0,max:100,val:80,step:1,label:'Brillo'} } },
 
     // ── TouchDesigner ─────────────────────────────
-    td_colorgrade: { id:'td_colorgrade', name:'TD Color Grade',   type:'td', fn:TDFX.td_colorgrade.fn, params:{} },
-    td_warp:       { id:'td_warp',       name:'TD Warp',          type:'td', fn:TDFX.td_warp.fn,       params:{} },
+    td_colorgrade: { id:'td_colorgrade', name:'TD Color Grade',    type:'td', fn:TDFX.td_colorgrade.fn, params:{} },
+    td_warp:       { id:'td_warp',       name:'TD Warp',           type:'td', fn:TDFX.td_warp.fn,       params:{} },
     td_glitch:     { id:'td_glitch',     name:'TD Reactive Glitch',type:'td', anim:true, fn:TDFX.td_glitch.fn, params:{} },
-    td_hue:        { id:'td_hue',        name:'TD Hue Rotation',  type:'td', fn:TDFX.td_hue.fn,        params:{} },
-    td_texture:    { id:'td_texture',    name:'TD Texture Input', type:'td', fn:TDFX.td_texture.fn,    params:{} },
+    td_hue:        { id:'td_hue',        name:'TD Hue Rotation',   type:'td', fn:TDFX.td_hue.fn,        params:{} },
+    td_texture:    { id:'td_texture',    name:'TD Texture Input',  type:'td', fn:TDFX.td_texture.fn,    params:{} },
   }
 };
 
@@ -76,7 +88,6 @@ const UI = {
       el.className = 'effect-item' + (eff.id === State.activeEffect ? ' active' : '');
       el.id = 'eff_' + eff.id;
       let h = `<span class="nm">${eff.name}</span>`;
-    
       el.innerHTML = h;
       el.onclick = () => App.selectEffect(eff.id);
       const target = groups[eff.type];
@@ -105,7 +116,7 @@ const UI = {
           <span>${def.label}</span></label>`;
       } else if (def.type === 'sel') {
         h += `<div class="param-row"><div class="param-label"><span>${def.label}</span></div>
-          <select onchange="${chg}this.selectedIndex);if('${id}'==='voronoi')State.vorSites=null;Renderer.renderFrame()">`;
+          <select onchange="${chg}this.selectedIndex);Renderer.renderFrame()">`;
         def.opts.forEach((o,i) => h += `<option ${i===cur?'selected':''}>${o}</option>`);
         h += `</select></div>`;
       } else {
